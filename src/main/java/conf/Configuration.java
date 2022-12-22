@@ -29,13 +29,11 @@ public class Configuration {
         } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
             return "LINUX";
         }
-        System.out.println("[ERROR] Can't determine OS Type. System.getProperty(\"os.name\") returns " +
+        throw new RuntimeException("[ERROR] Can't determine OS Type. System.getProperty(\"os.name\") returns " +
                 System.getProperty("os.name"));
-        return null;
     }
 
     public static String getWebdriversPath() {
-        if (getOSType() == null) return null;
         String path = "webdrivers/" + getOSType() + "_" + DRIVER_TYPE;
         if (getOSType().equals("WINDOWS")) {
             path += ".exe";

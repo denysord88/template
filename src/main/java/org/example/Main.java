@@ -1,42 +1,16 @@
 package org.example;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import static conf.Configuration.*;
+import static driver.WebBrowser.*;
 
 public class Main {
 
-    private static WebDriver driver;
-    public static void main(String[] args) {
-        if (getOSType() == null || getWebdriversPath() == null) return;
+    public static void main(String[] args) throws InterruptedException {
+        //System.setProperty("selenide.browser", "firefox");
+        initDriver();
 
-        System.setProperty(
-                "webdriver." +
-                        (DRIVER_TYPE.equals("FIREFOX") ?
-                                "gecko" :
-                                DRIVER_TYPE.toLowerCase())
-                        + ".driver",
-                getWebdriversPath());
-
-        Map<String, Class> driverClasses = Stream.of(new Object[][]{
-                {"CHROME", ChromeDriver.class},
-                {"FIREFOX", FirefoxDriver.class},
-        }).collect(Collectors.toMap(data -> (String) data[0], data -> (Class) data[1]));
-
-        try {
-            driver = (WebDriver) driverClasses.get(DRIVER_TYPE).getDeclaredConstructor().newInstance();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        driver.get("https://google.com");
+        Thread.sleep(4000);
 
         System.out.println("EMAIL " + EMAIL);
         System.out.println("PASSWORD " + PASSWORD);
