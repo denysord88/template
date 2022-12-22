@@ -29,6 +29,8 @@ public class Configuration {
         } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
             return "LINUX";
         }
+        System.out.println("[ERROR] Can't determine OS Type. System.getProperty(\"os.name\") returns " +
+                System.getProperty("os.name"));
         return null;
     }
 
